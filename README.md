@@ -59,9 +59,6 @@ The project works with EEG datasets for mental state classification. Ensure your
 - C++ compiler (GCC recommended)
 - Basic knowledge of EEG data processing
 
-## License
-
-[Include your license information here]
 
 ## Contributing
 
