@@ -13,33 +13,13 @@
 
 using namespace std;
 
-// Function to standardize features (mean=0, std=1) across samples for each feature
-void standardize_features(vector<vector<double>>& features) {
-    size_t n_samples = features.size();
-    if (n_samples == 0) return;
-    size_t n_features = features[0].size();
-
-    for (size_t j = 0; j < n_features; ++j) {
-        // Compute mean
-        double mean = 0.0;
-        for (size_t i = 0; i < n_samples; ++i) {
-            mean += features[i][j];
-        }
-        mean /= n_samples;
-
-        // Compute standard deviation
-        double var = 0.0;
-        for (size_t i = 0; i < n_samples; ++i) {
-            var += (features[i][j] - mean) * (features[i][j] - mean);
-        }
-        var /= n_samples;
-        double stddev = sqrt(var + 1e-10); // Small epsilon to avoid division by zero
-
-        // Standardize
-        for (size_t i = 0; i < n_samples; ++i) {
-            features[i][j] = (features[i][j] - mean) / stddev;
-        }
-    }
+// mapping output function
+string map_pred(int pred){
+    static string name;
+    if(pred==0)  name="neutral"; 
+    else if(pred==1)  name="relaxed";
+    else if(pred==2)  name="stressed"; 
+    return name;
 }
 
 int main() {
@@ -98,9 +78,9 @@ int main() {
     cout << "Applied DCT reduction to " << dct_dim << " features.\n";
 
     // Initialize MLP
-    vector<int> layers = {dct_dim, 128, 64, 3}; // Simplified architecture
-    double learning_rate = 0.001;              // Lower learning rate
-    int batch_size = 32;                       // Larger batch size
+    vector<int> layers = {dct_dim, 128, 64, 32, 3}; 
+    double learning_rate = 0.001;              
+    int batch_size = 32;                       
     MLP model(layers, learning_rate);
 
     // Split dataset
@@ -142,7 +122,7 @@ int main() {
         cout << "1. Train the model\n";
         cout << "2. Evaluate on test set\n";
         cout << "3. Test on a random test sample\n";
-        cout << "4. Test on student input\n";
+        cout << "4. Test on user input\n";
         cout << "5. Exit\n";
         cout << "Enter choice (1-5): ";
         getline(cin, choice);
@@ -150,7 +130,7 @@ int main() {
         if (choice == "1") {
             // Option 1: Train
             int epochs = 200;
-            int patience = 20;
+            int patience = 30;
             double best_val_acc = 0.0;
             int epochs_no_improve = 0;
             cout << "Training MLP...\n";
@@ -198,7 +178,7 @@ int main() {
             int idx = dis(gen);
             int pred = model.predict(test_features[idx]);
             cout << "Random test sample " << idx << ":\n";
-            cout << "True label = " << test_labels[idx] << ", Predicted = " << pred << "\n";
+            cout << "True label = " << test_labels[idx] << ", Predicted = " << map_pred(pred) << "\n";
 
         } else if (choice == "4") {
             // Option 4: Test on student input
@@ -225,7 +205,7 @@ int main() {
                 continue;
             }
             int pred = model.predict(input);
-            cout << "\nPredicted label = " << pred << "\n";
+            cout << "\nPredicted label = " << map_pred(pred) << "\n";
 
         } else if (choice == "5") {
             // Exit
@@ -238,18 +218,3 @@ int main() {
 
     return 0;
 }
-/*
-    // Split dataset
-    vector<vector<double>> train_features, val_features, test_features;
-    vector<int> train_labels, val_labels, test_labels;
-    split_dataset(features, labels, 0.7, 0.15,
-                  train_features, train_labels,
-                  val_features, val_labels,
-                  test_features, test_labels);
-
-    cout << "Dataset split:\n";
-    cout << "Train: " << train_features.size() << " samples\n";
-    cout << "Validation: " << val_features.size() << " samples\n";
-    cout << "Test: " << test_features.size() << " samples\n";
-*/
-    

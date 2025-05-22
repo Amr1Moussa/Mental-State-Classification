@@ -89,6 +89,36 @@ void normalize_rows(vector<vector<double>>& data) {
 }
 
 
+// Function to standardize features (mean=0, std=1) across samples for each feature
+void standardize_features(vector<vector<double>>& features) {
+    size_t n_samples = features.size();
+    if (n_samples == 0) return;
+    size_t n_features = features[0].size();
+
+    for (size_t j = 0; j < n_features; ++j) {
+        // Compute mean
+        double mean = 0.0;
+        for (size_t i = 0; i < n_samples; ++i) {
+            mean += features[i][j];
+        }
+        mean /= n_samples;
+
+        // Compute standard deviation
+        double var = 0.0;
+        for (size_t i = 0; i < n_samples; ++i) {
+            var += (features[i][j] - mean) * (features[i][j] - mean);
+        }
+        var /= n_samples;
+        double stddev = sqrt(var + 1e-10); // Small epsilon to avoid division by zero
+
+        // Standardize
+        for (size_t i = 0; i < n_samples; ++i) {
+            features[i][j] = (features[i][j] - mean) / stddev;
+        }
+    }
+}
+
+
 // 1D DCT Type-II for a single vector
 vector<double> dct_reduce(const vector<double>& input, int keep_dim) {
     int N = input.size();
