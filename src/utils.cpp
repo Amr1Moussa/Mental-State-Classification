@@ -1,4 +1,4 @@
-#include "C:\Users\laphouse\Projects\Brain_waves\includes\utils.h"
+#include "..\includes\utils.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
