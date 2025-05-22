@@ -118,7 +118,6 @@ void standardize_features(vector<vector<double>>& features) {
     }
 }
 
-
 // 1D DCT Type-II for a single vector
 vector<double> dct_reduce(const vector<double>& input, int keep_dim) {
     int N = input.size();
@@ -168,4 +167,15 @@ void split_dataset(const vector<vector<double>>& features,
             test_labels.push_back(labels[idx]);
         }
     }
+}
+
+
+
+// mapping output function
+string map_pred(int pred){
+    static string name;
+    if(pred==0)  name="neutral"; 
+    else if(pred==1)  name="relaxed";
+    else if(pred==2)  name="stressed"; 
+    return name;
 }

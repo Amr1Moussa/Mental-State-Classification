@@ -1,4 +1,4 @@
-#include "C:\Users\laphouse\Projects\Brain_waves\includes\feature_extraction.h"
+#include "../includes/feature_extraction.h"
 #include <cmath>
 #include <numeric>
 

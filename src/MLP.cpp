@@ -1,4 +1,4 @@
-#include "C:\Users\laphouse\Projects\Brain_waves\includes\MLP.h"
+#include "../includes/MLP.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>

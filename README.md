@@ -63,4 +63,3 @@ The project works with EEG datasets for mental state classification. Ensure your
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-

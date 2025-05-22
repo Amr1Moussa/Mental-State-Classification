@@ -1,6 +1,6 @@
-#include "C:\Users\laphouse\Projects\Brain_waves\includes\utils.h"
-#include "C:\Users\laphouse\Projects\Brain_waves\includes\feature_extraction.h"
-#include "C:\Users\laphouse\Projects\Brain_waves\includes\MLP.h"
+#include "../includes/utils.h"
+#include "../includes/feature_extraction.h"
+#include "../includes/MLP.h"
 
 #include <iostream>
 #include <vector>
@@ -13,14 +13,6 @@
 
 using namespace std;
 
-// mapping output function
-string map_pred(int pred){
-    static string name;
-    if(pred==0)  name="neutral"; 
-    else if(pred==1)  name="relaxed";
-    else if(pred==2)  name="stressed"; 
-    return name;
-}
 
 int main() {
     vector<vector<double>> features;
@@ -129,7 +121,7 @@ int main() {
 
         if (choice == "1") {
             // Option 1: Train
-            int epochs = 200;
+            int epochs = 250;
             int patience = 30;
             double best_val_acc = 0.0;
             int epochs_no_improve = 0;
