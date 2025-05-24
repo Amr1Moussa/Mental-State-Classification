@@ -1,0 +1,104 @@
+# presentation 
+
+# Slide 1: Introduction to EEG Classification Pipeline
+- Objective: Classify mental states (e.g., relaxed, neutral, stressed) using EEG signals
+- Approach: Neural network with preprocessing and feature extraction
+- Key components:
+  - Data preprocessing and dimensionality reduction
+  - Neural network with sigmoid activation
+  - Training with cross-entropy loss and early stopping
+
+# Slide 2: Data Preprocessing Pipeline
+- Raw EEG data: 1000 features per sample
+- Feature extraction:
+  - Statistical features (mean, variance, skewness)
+  - Discrete Cosine Transform (DCT) for frequency domain
+- Why DCT?
+  - Captures low-frequency patterns (important for EEG)
+  - Discards high-frequency noise
+- Standardization:
+  - Zero mean, unit variance per feature
+  - Prevents large-scale features from dominating
+  - Speeds up neural network convergence
+
+# Slide 3: Dimensionality Reduction
+- Goal: Keep most important features
+- Methods:
+  - Statistical feature extraction (mean, variance, skewness)
+  - DCT to focus on low-frequency components
+- Benefits:
+  - Reduces computational complexity
+  - Enhances model performance by removing noise
+  - Improves interpretability of EEG signals
+
+# Slide 4: Neural Network Architecture
+- Activation function: Sigmoid for output layer
+  - Range [0, 1]: Ideal for probability outputs
+  - Smooth and differentiable for gradient descent
+  - Compatible with cross-entropy loss
+- Limitation:
+  - Vanishing gradient problem in deep layers
+- Alternative: ReLU for hidden layers, Softmax for multi-class outputs
+
+# Slide 5: Weight Initialization
+- Method: Glorot (Xavier) Initialization
+- Formula: W ~ U[-√(6/(n_in + n_out)), √(6/(n_in + n_out))]
+- Benefits:
+  - Balances variance of activations and gradients
+  - Prevents exploding or vanishing gradients
+- Designed for sigmoid/tanh activations
+
+# Slide 6: Training Process
+- Steps:
+  - Forward pass: Compute predictions
+  - Loss calculation: Cross-entropy
+  - Backward pass: Compute gradients via backpropagation
+  - Weight update: SGD (w = w - η * ∂L/∂w)
+- Optimization:
+  - Mini-batch gradient descent
+  - Early stopping to prevent overfitting
+- Early stopping logic:
+  - Monitor validation loss
+  - Stop if no improvement for 10 epochs
+
+# Slide 7: Loss Function
+- Choice: Cross-Entropy Loss
+- Formula (binary): -[y log(p) + (1 - y) log(1 - p)]
+- Why?
+  - Ideal for classification tasks
+  - Matches sigmoid output format
+  - Penalizes confident wrong predictions
+  - Provides strong gradients for optimization
+
+# Slide 8: Model Evaluation
+- Metric: Accuracy = (TR + TN + TS) / Total Samples
+  - TR: True Relaxed
+  - TN: True Neutral
+  - TS: True Stressed
+- Additional checks:
+  - Class distribution analysis
+  - Handle imbalance with oversampling/undersampling
+- Visualization (Placeholder):
+  - Training loss curve
+  - Accuracy curve
+  - Overfitting analysis
+
+# Slide 9: Future Improvements
+- Real-time EEG integration:
+  - Embed pipeline with devices (e.g., Muse headband)
+  - Enable doctors to monitor mental states live
+- User-friendly model:
+  - Accessible to non-experts
+  - Potential for alternative risk detection
+- Additional features:
+  - Extract new EEG features for enhanced accuracy
+
+# Slide 10: Conclusion
+- Summary:
+  - Effective EEG preprocessing with DCT and standardization
+  - Neural network with sigmoid activation and cross-entropy loss
+  - Robust training with Glorot initialization and early stopping
+- Next steps:
+  - Implement real-time EEG integration
+  - Enhance model with additional features
+  - Deploy for clinical and user-friendly applications
