@@ -91,7 +91,7 @@
   - Accessible to non-experts
   - Potential for alternative risk detection
 - Additional features:
-  - Extract new EEG features for enhanced accuracy
+  - The pipeline could potentially be adapted to explore Alzheimer’s risk detection by extracting additional EEG features in future work
 
 # Slide 10: Conclusion
 - Summary:
