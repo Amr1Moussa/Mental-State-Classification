@@ -40,7 +40,7 @@ The application provides a menu-based interface with the following options:
 1. **Train the model**: Uses 70% of the dataset for training the MLP
 2. **Evaluate on test set**: Tests performance on the remaining 30% of data
 3. **Test on a random sample**: Classifies a randomly selected test sample
-4. **Test on user input**: Classifies data from a sample provided in test_samples.txt (without labels)
+4. **Test on user input**: Classifies data from a sample provided in test_samples.txt (use without labels)
 5. **Exit**: Terminate the application
 
 ## Dataset
