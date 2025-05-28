@@ -70,7 +70,7 @@ int main() {
     cout << "Applied DCT reduction to " << dct_dim << " features.\n";
 
     // Initialize MLP
-    vector<int> layers = {dct_dim, 128, 64, 32, 3}; 
+    vector<int> layers = {dct_dim, 128, 64, 3}; 
     double learning_rate = 0.001;              
     int batch_size = 32;                       
     MLP model(layers, learning_rate);
@@ -121,8 +121,8 @@ int main() {
 
         if (choice == "1") {
             // Option 1: Train
-            int epochs = 250;
-            int patience = 30;
+            int epochs = 400;
+            int patience = 40;
             double best_val_acc = 0.0;
             int epochs_no_improve = 0;
             cout << "Training MLP...\n";
@@ -197,7 +197,8 @@ int main() {
                 continue;
             }
             int pred = model.predict(input);
-            cout << "\nPredicted label = " << map_pred(pred) << "\n";
+            cout<<endl;
+            map_pred_and_act(pred);
 
         } else if (choice == "5") {
             // Exit

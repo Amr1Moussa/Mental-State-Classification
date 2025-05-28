@@ -1,4 +1,4 @@
-#include "C:\Users\laphouse\Projects\Brain_waves\includes\utils.h"
+#include "../includes/utils.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -6,6 +6,10 @@
 #include <limits>
 #include <random>
 #include <algorithm>
+#include <ctime>
+#include <thread>
+#include <chrono>
+#include <cstdlib>
 
 using namespace std;
 
@@ -169,8 +173,6 @@ void split_dataset(const vector<vector<double>>& features,
     }
 }
 
-
-
 // mapping output function
 string map_pred(int pred){
     static string name;
@@ -179,3 +181,80 @@ string map_pred(int pred){
     else if(pred==2)  name="stressed"; 
     return name;
 }
+
+
+string map_pred_and_act(int pred) {
+    string name;
+
+    // Get current time (system is in EEST, UTC+3)
+    time_t timestamp = time(nullptr); 
+    timestamp += 10800; // Convert EEST (UTC+3) to EET (UTC+2)
+
+    tm* timeinfo = gmtime(&timestamp); // Fixed: Use gmtime with &timestamp
+    char buffer[80];
+    strftime(buffer, 80, "%Y-%m-%d %H:%M:%S EET", timeinfo);
+    string time_str = buffer;
+
+
+    // Open log file
+    ofstream log_file("mental_state_log.txt", ios::app);
+    if (!log_file.is_open()) {
+        cerr << "Error: Could not open log file." << endl;
+        return name; // Return early if log file fails
+    }
+
+
+    if (pred == 0) {
+        name = "neutral";
+        cout << "Neutral state at " << time_str << ": System continues normally." << endl;
+        log_file << "Neutral state at " << time_str << ": System continues normally, no action taken." << endl;
+    }
+    else if (pred == 1) {
+        name = "relaxed";
+        cout << "Relaxed state at " << time_str << endl;
+        log_file << "Relaxed state at " << time_str << ": Displaying to-do list and playing motivational track." << endl;
+
+        // Action: Display to-do list from todo.txt
+        ifstream todo_file("todo.txt");
+        if (todo_file.is_open()) {
+            cout << "\nTo-Do List:" << endl;
+            string line;
+            while (getline(todo_file, line)) {
+                cout << line << endl;
+            }
+            todo_file.close();
+        } else {
+            cout << "Error: Could not open todo.txt." << endl;
+            log_file << "Error: Could not open todo.txt at " << time_str << "." << endl;
+        }
+
+        // Action: Play motivational track
+        system("start motivation.mp3"); // Windows
+        
+    }
+    else if (pred == 2) {
+        name = "stressed";
+        cout << "Stressed state at " << time_str << endl;
+        log_file << "Stressed state at " << time_str << ": Sending alert, tasks paused." << endl;
+
+        // Action: Play buzzer sound
+        system("start buzzer.mp3"); // Windows
+        // system("mpg123 buzzer.mp3"); // Uncomment for Linux
+        this_thread::sleep_for(chrono::seconds(5)); // Wait for sound
+
+        // Action: 5-minute countdown timer (console)
+        cout << "Starting 5-minute break countdown..." << endl;
+        //for (int i = 300; i >= 0; --i) {
+        for (int i = 300; i >= 0; --i) {
+            if (i % 60 == 0) {
+                cout << "Time remaining: " << i / 60 << " minutes." << endl;
+            }
+            this_thread::sleep_for(chrono::seconds(1));
+        }
+        cout << "Break finished!" << endl;}
+
+
+    log_file.close();
+    return name;
+}
+

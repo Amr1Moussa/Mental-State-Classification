@@ -20,7 +20,8 @@ void split_dataset(const vector<vector<double>>& features,
                    vector<vector<double>>& test_features,
                    vector<int>& test_labels);
 
-string map_pred(int pred);                   
+string map_pred(int pred);   
+string map_pred_and_act(int pred);                
 
 
 
